@@ -41,3 +41,14 @@ a.offer-icon:hover{transform:translate(4px,-4px);opacity:.6}
 .skill-panel>div ul{padding-left:18px;margin:5px 0}
 .skills-plan{margin-top:22px;max-width:420px}
 @media(max-width:760px){.football-skills{padding:25px 20px;margin-top:25px}.skills-heading{grid-template-columns:1fr;gap:15px}.skills-heading .eyebrow{grid-column:auto}.skill-panel summary{grid-template-columns:30px 1fr 20px}.skill-panel summary b{font-size:14px}.skill-panel>div{padding:0 8px 16px 42px}}
+
+
+/* Dedicated football skills page */
+.skills-main{max-width:1300px;margin:0 auto;padding:55px 7vw 90px;min-height:calc(100vh - 150px)}
+.skills-page .standalone-skills{margin:0;padding:40px clamp(24px,4vw,65px);scroll-margin-top:0}
+.skills-topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid rgba(17,17,17,.18);padding-bottom:18px;margin-bottom:38px}
+.skills-back{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#666}
+.skills-back:hover,.skills-back-icon:hover{color:#111}
+.skills-back-icon{font:500 32px/1 'Space Grotesk',sans-serif;transition:transform .2s}
+.skills-back-icon:hover{transform:translate(-4px,4px)}
+@media(max-width:760px){.skills-main{padding:22px 5vw 60px}.skills-page .standalone-skills{padding:22px 20px}.skills-topbar{margin-bottom:28px}}
