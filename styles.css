@@ -17,3 +17,27 @@
 .practice-plan{margin-top:18px;padding:14px;background:rgba(17,17,17,.05);font-size:10px;line-height:1.7}
 .offer-dark .practice-plan{background:rgba(255,255,255,.07)}
 .practice-plan ol{padding-left:18px;margin:7px 0 0}
+
+
+/* Football card arrow links to the dedicated skills guide */
+.offer-icon{display:block;line-height:1;transition:transform .2s,opacity .2s}
+a.offer-icon:hover{transform:translate(4px,-4px);opacity:.6}
+.football-skills{margin-top:34px;padding:42px;background:#e9e7df;scroll-margin-top:28px}
+.skills-heading{display:grid;grid-template-columns:1fr 1fr;gap:14px 40px;align-items:end;margin-bottom:30px}
+.skills-heading .eyebrow{grid-column:1/-1;margin:0}
+.skills-heading h3{font:600 clamp(34px,4vw,54px)/1.02 'Space Grotesk',sans-serif;letter-spacing:-.055em;margin:0}
+.skills-heading h3 em{font-style:normal;color:#888;font-weight:400}
+.skills-heading>p:last-child{max-width:290px;color:#777;font-size:12px;line-height:1.8;margin:0 0 4px}
+.skills-list{border-top:1px solid rgba(17,17,17,.2)}
+.skill-panel{border-bottom:1px solid rgba(17,17,17,.2)}
+.skill-panel summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:48px 1fr 24px;align-items:center;gap:12px;padding:18px 0}
+.skill-panel summary::-webkit-details-marker{display:none}
+.skill-panel summary span{font-size:10px;color:#888;letter-spacing:.12em}
+.skill-panel summary b{font:600 16px 'Space Grotesk',sans-serif}
+.skill-panel summary i{font-style:normal;font-size:20px;text-align:right;transition:transform .2s}
+.skill-panel[open] summary i{transform:rotate(45deg)}
+.skill-panel>div{padding:0 35px 18px 60px;max-width:780px;color:#666;font-size:12px;line-height:1.8}
+.skill-panel>div p{margin:0 0 8px}
+.skill-panel>div ul{padding-left:18px;margin:5px 0}
+.skills-plan{margin-top:22px;max-width:420px}
+@media(max-width:760px){.football-skills{padding:25px 20px;margin-top:25px}.skills-heading{grid-template-columns:1fr;gap:15px}.skills-heading .eyebrow{grid-column:auto}.skill-panel summary{grid-template-columns:30px 1fr 20px}.skill-panel summary b{font-size:14px}.skill-panel>div{padding:0 8px 16px 42px}}
