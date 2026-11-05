@@ -970,3 +970,22 @@ body > div { margin-inline: auto; }
 .layer-001:last-of-type .layer-057{width:340px;z-index:1}
 .layer-001:last-of-type .layer-076{width:290px;z-index:3}
 .layer-001:last-of-type .layer-075{z-index:2}
+
+
+/* Figma reference: white outline of BASE / CUP remains visible over the trophy */
+.layer-001:last-of-type .layer-077,
+.layer-001:last-of-type .layer-078{
+  font-family:'Bangers',Impact,'Arial Narrow',sans-serif;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+  -webkit-text-stroke:1.3px #fff;
+  paint-order:stroke fill;
+  white-space:nowrap;
+  overflow:visible;
+  word-break:normal;
+  overflow-wrap:normal;
+  pointer-events:none;
+  z-index:4;
+}
+.layer-001:last-of-type .layer-077{width:340px}
+.layer-001:last-of-type .layer-078{width:350px}
