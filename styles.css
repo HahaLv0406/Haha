@@ -916,7 +916,7 @@ body > div { margin-inline: auto; }
 
 /* Template 2 home: match the supplied black/white Figma reference */
 .layer-001:first-of-type .layer-004{
-  left:720px;
+  left:624px;
   top:242px;
   transform:scaleX(-1);
   transform-origin:center center;
