@@ -906,7 +906,7 @@ body > div { margin-inline: auto; }
 
 /* Template 2: preserve full cutout photos and improve narrow-screen viewing */
 .layer-003{object-fit:contain;object-position:center bottom;filter:brightness(0)}
-.layer-004{object-fit:contain;object-position:center bottom;transform:none;left:725px;top:242px}
+.layer-004{object-fit:contain;object-position:center bottom;transform:scaleX(-1);left:725px;top:242px}
 .layer-075{object-fit:contain;object-position:center center}
 @media(max-width:1440px){
   body{overflow-x:auto}
