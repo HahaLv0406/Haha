@@ -1012,3 +1012,9 @@ body > div { margin-inline: auto; }
   text-shadow:none;
   z-index:10;
 }
+
+/* CUP: only the part crossing the trophy receives a white contour.
+   The rest of the word remains solid black, as in the original design. */
+.layer-001:last-of-type .layer-077{
+  clip-path:inset(-4px 67% -4px -4px);
+}
