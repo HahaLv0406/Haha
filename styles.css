@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 /* Original 1440 × 900 Figma-exported layouts. */
 * { box-sizing: border-box; }
 body { margin: 0; font-family: Inter, Arial, sans-serif; }
@@ -953,3 +954,19 @@ body > div { margin-inline: auto; }
   height:3px;
   background:#fff;
 }
+
+/* Restore original condensed display lettering for the BASE CUP artwork */
+
+.layer-001:last-of-type .layer-056,
+.layer-001:last-of-type .layer-059,
+.layer-001:last-of-type .layer-076{
+  font-family:'Bangers',Impact,'Arial Narrow',sans-serif;
+  white-space:nowrap;
+  overflow:visible;
+  word-break:normal;
+  overflow-wrap:normal;
+}
+.layer-001:last-of-type .layer-056{width:350px;z-index:1}
+.layer-001:last-of-type .layer-057{width:340px;z-index:1}
+.layer-001:last-of-type .layer-076{width:290px;z-index:3}
+.layer-001:last-of-type .layer-075{z-index:2}
