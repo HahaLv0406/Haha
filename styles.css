@@ -912,3 +912,44 @@ body > div { margin-inline: auto; }
   body{overflow-x:auto}
   .layer-001{margin-left:0;margin-right:0}
 }
+
+
+/* Template 2 home: match the supplied black/white Figma reference */
+.layer-001:first-of-type .layer-004{
+  left:720px;
+  top:242px;
+  transform:scaleX(-1);
+  transform-origin:center center;
+}
+.layer-001:first-of-type .layer-008{
+  left:64px;
+  top:82px;
+  width:656px;
+  height:3px;
+  background:#0f0f0f;
+}
+.layer-001:first-of-type .layer-008::after{
+  content:"";
+  position:absolute;
+  left:656px;
+  top:0;
+  width:656px;
+  height:3px;
+  background:#fff;
+}
+.layer-001:first-of-type .layer-014{
+  left:64px;
+  top:842px;
+  width:656px;
+  height:3px;
+  background:#0f0f0f;
+}
+.layer-001:first-of-type .layer-014::after{
+  content:"";
+  position:absolute;
+  left:656px;
+  top:0;
+  width:656px;
+  height:3px;
+  background:#fff;
+}
