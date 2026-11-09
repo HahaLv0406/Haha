@@ -922,3 +922,8 @@ body{background:#f5f5f5;overflow-x:hidden}
 .layer-003{object-position:center bottom}
 .layer-004{object-position:center bottom}
 @media(prefers-reduced-motion:no-preference){.page-nav a{transition:opacity .2s}.page-nav a:hover{opacity:.7}}
+
+/* Rebuild the two-player centerline composition from the reference image. */
+.layer-003{filter:brightness(0);left:424px;top:242px;transform:none}
+.layer-004{left:720px;top:242px;transform:none;transform-origin:center center}
+.layer-075{left:35px;top:78px;width:637px;height:820px;object-position:center center}
