@@ -49,13 +49,13 @@
     if(!state.scored){
       state.x+=state.vx*dt;state.y+=state.vy*dt;
       state.vx*=Math.pow(.994,dt);state.vy*=Math.pow(.994,dt);
-      if(Math.abs(state.vx)+Math.abs(state.vy)<.55){state.vx+=Math.sin(t/900)*.018;state.vy+=Math.cos(t/1100)*.014}
+      if(Math.abs(state.vx)+Math.abs(state.vy)<.7){state.vx=Math.sin(t/820)*1.35;state.vy=Math.cos(t/1030)*.62}
       if(state.x<radius||state.x>w-radius){state.x=clamp(state.x,radius,w-radius);state.vx*=-.82}
       if(state.y>h-radius){state.y=h-radius;state.vy*=-.78}
       const rects=goalRects();
       if(state.y<radius+rects[0].y-12){
         const target=rects.find(g=>Math.abs(state.x-g.x)<g.half);
-        if(target&&state.vy<0){score({label:target.id==='base'?'Base Cup':target.id==='about'?'About Me':'Ask Me About',href:target.id==='base'?'journey.html':target.id==='about'?'about.html':'help.html'})}
+        if(target&&state.vy<0&&state.kicks>0){score({label:target.id==='base'?'Base Cup':target.id==='about'?'About Me':'Ask Me About',href:target.id==='base'?'journey.html':target.id==='about'?'about.html':'help.html'})}
         else {state.y=radius+rects[0].y-12;state.vy=Math.abs(state.vy)*.78;setMessage('Saved by the net — try another angle.')}
       }
       if(Math.hypot(state.x-state.pointerX,state.y-state.pointerY)<37 && state.lastX!==null && t-state.lastKick>380){/* wait for a fresh pointer movement */}
