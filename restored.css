@@ -954,3 +954,6 @@ body{background:#f5f5f5;overflow-x:hidden}
 .artboard .layer-059{font-family:'Bangers',Impact,sans-serif!important;font-size:128px!important;line-height:1!important;white-space:nowrap!important}
 .artboard .layer-076{left:445px!important;top:548px!important;width:260px!important;height:70px!important;font-family:'Bangers',Impact,sans-serif!important;font-size:52px!important;line-height:1!important;white-space:nowrap!important;z-index:4!important}
 .artboard .layer-075{z-index:3!important}
+
+/* White outline around the BASE CUP lettering behind the trophy, as in the reference poster. */
+.artboard .layer-056,.artboard .layer-059{-webkit-text-stroke:1.5px #fff;paint-order:stroke fill;text-shadow:none}
