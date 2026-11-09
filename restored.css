@@ -935,3 +935,6 @@ body{background:#f5f5f5;overflow-x:hidden}
 /* Home composition correction: one shared ball at the black/white seam. */
 .layer-001 .layer-003{left:424px;top:242px;filter:brightness(0);transform:none;z-index:3}
 .layer-001 .layer-004{left:653px;top:242px;transform:scaleX(-1);transform-origin:center center;z-index:4}
+
+/* Precise ball overlap: move mirrored color figure 41px left to align both ball centers. */
+.layer-001 .layer-004{left:612px!important;top:242px!important;transform:scaleX(-1)!important;transform-origin:center center!important}
