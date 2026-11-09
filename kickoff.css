@@ -40,30 +40,3 @@ body{min-height:100svh;overflow:hidden}
 .goal-flash span{font-size:11px;letter-spacing:.14em;margin-top:10px}
 @media(max-width:650px){body{overflow:auto}.kickoff-header{height:auto;min-height:70px;align-items:flex-start;flex-direction:column;justify-content:center;gap:12px;padding-block:14px}.kickoff-header nav{gap:18px}.kickoff-main{height:calc(100svh - 86px);min-height:620px;padding:22px 14px 18px}.kickoff-heading{align-items:flex-start;flex-direction:column}.game-instructions{max-width:100%}.pitch{min-height:380px}.goal{width:29%;height:74px}.goal[data-goal="about"]{left:18%}.goal[data-goal="base"]{left:50%}.goal[data-goal="help"]{left:82%}.goal-label{font-size:8px;padding:4px 5px}.goal-mouth{border-width:4px}.ball{width:34px;height:34px;font-size:31px}.game-hud{align-items:flex-start;flex-direction:column}.fallback-nav{gap:15px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
-
-/* Homepage: restore the original player artwork as a soft, mirrored field backdrop. */
-.pitch{background:#e4e1d8}
-.pitch .center-circle,.pitch .center-dot{z-index:0}
-.player-ghost{position:absolute;top:3%;width:26.2%;height:auto;max-height:94%;object-fit:contain;opacity:.16;filter:grayscale(1) brightness(.72) contrast(.82);pointer-events:none;z-index:1;user-select:none}
-.player-left{left:29.4%}
-.player-right{left:43.4%;transform:scaleX(-1)}
-.goal{z-index:4}
-.ball{z-index:5}
-.goal-flash{z-index:9}
-.home-info{width:100%;max-width:1400px;margin:15px auto 0;display:grid;grid-template-columns:minmax(190px,.72fr) minmax(0,1.9fr);gap:clamp(22px,4vw,58px);align-items:start}
-.home-intro{padding-right:clamp(12px,2vw,28px);border-right:1px solid var(--line)}
-.info-kicker{font-size:9px;line-height:1.4;font-weight:800;letter-spacing:.13em;color:#77756f}
-.home-intro p{font-size:11px;line-height:1.65;color:#55534d;margin:8px 0 9px;max-width:330px}
-.home-intro>a{font-size:9px;font-weight:800;letter-spacing:.08em;text-decoration:none}
-.project-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.info-note{font-size:8px;letter-spacing:.1em;color:#929087}
-.project-strip{min-width:0}
-.project-item{display:grid;grid-template-columns:26px minmax(0,1fr) 16px;gap:10px;align-items:center;padding:7px 0;border-top:1px solid var(--line);text-decoration:none;color:inherit}
-.project-item>b{font-size:10px;color:#77756f;font-weight:500}
-.project-item strong{display:block;font-size:10px;line-height:1.4;font-weight:800}
-.project-item small{display:block;font-size:9px;line-height:1.4;color:#77756f;margin-top:1px}
-.project-item i{font-size:14px;font-style:normal;text-align:right}
-.project-item:hover strong{text-decoration:underline}
-.game-hud{margin-top:9px}
-@media(max-height:760px) and (min-width:651px){.kickoff-main{padding-top:14px;padding-bottom:12px}.kickoff-heading{margin-bottom:10px}.kickoff-heading h1{font-size:clamp(30px,3.7vw,48px)}.pitch{min-height:280px}.home-info{margin-top:9px}.home-intro p{margin:5px 0}.project-item{padding:5px 0}.game-hud{margin-top:6px}}
-@media(max-width:760px){.home-info{grid-template-columns:1fr;gap:14px}.home-intro{border-right:0;border-bottom:1px solid var(--line);padding:0 0 12px}.home-intro p{max-width:none}.player-ghost{width:40%;max-height:82%;top:12%}.player-left{left:13%}.player-right{left:33%}.project-heading{margin-bottom:5px}.project-item{padding:8px 0}.info-note{display:none}}
