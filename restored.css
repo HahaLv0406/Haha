@@ -960,3 +960,7 @@ body{background:#f5f5f5;overflow-x:hidden}
 
 /* Strong visible white keyline around the black BASE / CUP letters. */
 .artboard .layer-056,.artboard .layer-059,.artboard .layer-077,.artboard .layer-078{-webkit-text-stroke:4px #fff!important;paint-order:stroke fill!important;text-shadow:0 0 1px #fff!important}
+
+/* Correct outline layers: only the visible black lettering gets a white keyline. */
+.artboard .layer-056,.artboard .layer-059{-webkit-text-stroke:2.5px #fff!important;paint-order:stroke fill!important;text-shadow:none!important}
+.artboard .layer-077,.artboard .layer-078{-webkit-text-stroke:0 transparent!important;text-shadow:none!important;color:transparent!important}
