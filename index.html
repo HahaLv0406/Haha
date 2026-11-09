@@ -1,22 +1,19 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Home — Haha</title><link rel="stylesheet" href="restored.css?v=ball-overlap-4"></head><body><main class="viewport"><div class="artboard"><div class="layer-001">
-  <div class="layer-002"></div>
-  <img class="layer-003" src="assets/c535f6be-013a-453c-a18c-fd4257e27184.png" />
-  <img class="layer-004" src="assets/c535f6be-013a-453c-a18c-fd4257e27184.png" />
-  <a class="layer-005 nav-on-dark" href="index.html">HOME</a>
-  <a class="layer-006 nav-on-dark" href="about.html">ABOUT</a>
-  <a class="layer-007 nav-on-dark" href="help.html">HELP</a>
-  <div class="layer-008"></div>
-  <div class="layer-009">Things That Make Me Me</div>
-  <div class="layer-010">I’m optimistic, independent-minded, and social. I enjoy sports, meeting people, and trying new ideas.</div>
-  <div class="layer-011">03 SELECTED PROJECTS</div>
-  <div class="layer-012"><a class="inline-link" href="journey.html">02 / Base Cup Championship</a><br/>Represented my school and helped the team win the Base Cup.<br/><a class="inline-link" href="journey.html">VIEW PROJECT →</a></div>
-  <div class="layer-013">VIEW PROJECT →</div>
-  <div class="layer-014"></div>
-  <div class="layer-015">EMAIL  ·  SOCIALS</div>
-  <div class="layer-016">ABOUT ME <br/>OPTIMISTIC • INDEPENDENT • SOCIAL<br/>I enjoy sports, connecting with people, and bringing my own ideas to life.<br/><a class="inline-link" href="about.html">VIEW MORE →</a></div>
-  <div class="layer-017">01 / Caffeine Mini Program<br/>A mini program to help track caffeine intake.<br/>VIEW PROJECT →</div>
-  <div class="layer-018">03 / Essay on Friendship<br/>A personal essay about the friendship between my friend and me.<br/>VIEW PROJECT →</div>
-  <div class="layer-019">Home Page</div>
-</div>
-</div></main><nav class="page-nav" aria-label="Pages"><a href="index.html">Home</a><a href="about.html">About</a><a href="journey.html">Base Cup</a><a href="help.html">Ask Me About</a></nav><script>function fitArtboard(){const el=document.querySelector('.artboard');const viewport=document.querySelector('.viewport');if(!el||!viewport)return;const scale=Math.min(viewport.clientWidth/1440,viewport.clientHeight/900);el.style.setProperty('--art-scale',String(scale));}window.addEventListener('resize',fitArtboard);fitArtboard();</script></body></html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f2f0e9"><meta name="description" content="Kick your way through Haha's personal portfolio."><title>Home — Haha</title><link rel="stylesheet" href="kickoff.css"></head>
+<body>
+<header class="kickoff-header"><a class="wordmark" href="index.html">HAHA / PORTFOLIO</a><nav aria-label="Main navigation"><a href="about.html">ABOUT</a><a href="journey.html">BASE CUP</a><a href="help.html">ASK ME ABOUT</a></nav></header>
+<main class="kickoff-main">
+<section class="kickoff-heading"><div><p class="eyebrow">WELCOME TO MY FIELD</p><h1>Choose your goal.<br><span>Kick off your journey.</span></h1></div><p class="game-instructions">Move your shoe into the rolling football to kick it. Aim toward a goal to open that page. You can also use the arrow keys.</p></section>
+<section class="pitch" id="pitch" aria-label="Interactive football field with three page goals">
+<div class="center-circle"></div><div class="center-dot"></div>
+<div class="goal" data-goal="about"><div class="goal-mouth"></div><span class="goal-label">ABOUT ME</span></div>
+<div class="goal" data-goal="base"><div class="goal-mouth"></div><span class="goal-label">BASE CUP</span></div>
+<div class="goal" data-goal="help"><div class="goal-mouth"></div><span class="goal-label">ASK ME ABOUT</span></div>
+<div class="ball" id="ball" aria-label="Football">⚽</div>
+<div class="goal-flash" id="goal-flash"><strong>GOAL!</strong><span>OPENING PAGE</span></div>
+</section>
+<div class="game-hud"><span class="hud-message" id="hud-message" aria-live="polite">The ball is moving. Get your shoe close and kick.</span><span class="kick-counter">KICKS <b id="kick-counter">00</b></span><nav class="fallback-nav" aria-label="Direct page links"><a href="about.html">ABOUT ↗</a><a href="journey.html">BASE CUP ↗</a><a href="help.html">ASK ME ABOUT ↗</a></nav></div>
+</main>
+<div class="shoe-cursor" id="shoe-cursor" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><path d="M9 39c7-2 12-8 15-20l8 4c2 8 7 13 15 16l8 5c3 2 3 7-1 9H13c-7 0-10-9-4-14Z" fill="#111" stroke="#f8f7f2" stroke-width="2.5"/><path d="m22 27 8 5m-11-1 8 5m-12-1 8 5" stroke="#f8f7f2" stroke-width="2" stroke-linecap="round"/><path d="M12 52h41" stroke="#111" stroke-width="3" stroke-linecap="round"/><path d="m19 53-2 5m11-5-1 5m11-5 1 5m10-5 2 5" stroke="#111" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+<script src="kickoff.js"></script>
+</body></html>
