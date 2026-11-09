@@ -964,3 +964,9 @@ body{background:#f5f5f5;overflow-x:hidden}
 /* Correct outline layers: only the visible black lettering gets a white keyline. */
 .artboard .layer-056,.artboard .layer-059{-webkit-text-stroke:2.5px #fff!important;paint-order:stroke fill!important;text-shadow:none!important}
 .artboard .layer-077,.artboard .layer-078{-webkit-text-stroke:0 transparent!important;text-shadow:none!important;color:transparent!important}
+
+/* Reference effect: black BASE/CUP stays behind the trophy; transparent white-stroke copies sit above it. On the white poster background the stroke disappears, but where the letters cross the trophy it becomes visible as a white edge. */
+.artboard .layer-056,.artboard .layer-059{-webkit-text-stroke:0!important;text-shadow:none!important}
+.artboard .layer-078{position:absolute!important;left:30px!important;top:344px!important;width:350px!important;height:145px!important;z-index:4!important;color:transparent!important;-webkit-text-fill-color:transparent!important;-webkit-text-stroke:2.5px #fff!important;paint-order:stroke fill!important;font-family:'Bangers',Impact,sans-serif!important;font-size:128px!important;line-height:1!important;white-space:nowrap!important;pointer-events:none!important}
+.artboard .layer-077{position:absolute!important;left:395px!important;top:344px!important;width:270px!important;height:145px!important;z-index:4!important;color:transparent!important;-webkit-text-fill-color:transparent!important;-webkit-text-stroke:2.5px #fff!important;paint-order:stroke fill!important;font-family:'Bangers',Impact,sans-serif!important;font-size:128px!important;line-height:1!important;white-space:nowrap!important;pointer-events:none!important}
+.artboard .layer-075{z-index:3!important}
