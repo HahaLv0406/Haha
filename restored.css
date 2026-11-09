@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 /* Original 1440 × 900 Figma-exported layouts. */
 * { box-sizing: border-box; }
 body { margin: 0; font-family: Inter, Arial, sans-serif; }
@@ -940,9 +941,16 @@ body{background:#f5f5f5;overflow-x:hidden}
 .layer-001 .layer-004{left:625px!important;top:242px!important;transform:scaleX(-1)!important;transform-origin:center center!important}
 
 /* Base Cup poster: restore original condensed, slanted Bangers display lettering. */
-@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
 .layer-056,.layer-059,.layer-076{font-family:'Bangers',Impact,'Arial Narrow',sans-serif!important;font-style:normal;white-space:nowrap;word-wrap:normal;line-height:1!important}
 .layer-056{width:auto!important;font-size:128px!important;top:311px!important;left:30px!important}
 .layer-057{width:auto!important;left:390px!important;top:367px!important}
 .layer-059{font-size:128px!important}
 .layer-076{width:auto!important;left:435px!important;top:536px!important;font-size:52px!important}
+
+/* Match the supplied Base Cup reference: full-size lettering behind trophy. */
+.artboard .layer-056{left:30px!important;top:344px!important;width:350px!important;height:145px!important;font-family:'Bangers',Impact,sans-serif!important;font-size:128px!important;line-height:1!important;white-space:nowrap!important;z-index:2!important}
+.artboard .layer-057{left:395px!important;top:344px!important;width:270px!important;height:145px!important;z-index:2!important}
+.artboard .layer-059{font-family:'Bangers',Impact,sans-serif!important;font-size:128px!important;line-height:1!important;white-space:nowrap!important}
+.artboard .layer-076{left:445px!important;top:548px!important;width:260px!important;height:70px!important;font-family:'Bangers',Impact,sans-serif!important;font-size:52px!important;line-height:1!important;white-space:nowrap!important;z-index:4!important}
+.artboard .layer-075{z-index:3!important}
