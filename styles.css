@@ -1018,3 +1018,6 @@ body > div { margin-inline: auto; }
 .layer-001:last-of-type .layer-077{
   clip-path:inset(-4px 67% -4px -4px);
 }
+
+/* Hide decorative microcopy on the football guide while preserving instructions. */
+.skills-topbar .skills-back{display:none!important}
