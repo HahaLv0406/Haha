@@ -981,3 +981,7 @@ body{background:#f5f5f5;overflow-x:hidden}
 .artboard .layer-077,.artboard .layer-078{display:none!important;-webkit-text-stroke:0!important;text-shadow:none!important}
 /* Move CUP slightly right while keeping BASE and trophy fixed. */
 .artboard .layer-057{left:415px!important}
+
+/* Inner pages: only the Home link is available in the bottom navigation. */
+.page-nav a:not(:first-child){display:none!important}
+.page-nav{gap:0!important}
