@@ -157,12 +157,13 @@
   function resolveGoalCollision(previousX, previousY) {
     const half = BALL_SIZE / 2;
     const frameThickness = 5;
+    const goalDepth = 58;
 
     for (const goal of goalRects()) {
       const innerLeft = goal.left + frameThickness + half;
       const innerRight = goal.right - frameThickness - half;
 
-      // Score only by crossing the goal's front opening from the field side.
+      // A clean shot crossing the front opening from the field side is a goal.
       const crossedFront = state.vy < 0 &&
         previousY - half > goal.bottom &&
         state.y - half <= goal.bottom;
@@ -170,7 +171,51 @@
         return goal.id;
       }
 
-      // Left and right posts are solid vertical obstacles.
+      // The goal has a solid 3D-like side volume behind its front frame.
+      // Balls hitting either side wall are pushed back and reflected.
+      const insideGoalDepth =
+        state.y + half > goal.top - goalDepth &&
+        state.y - half < goal.bottom;
+
+      if (insideGoalDepth) {
+        const hitLeftSide =
+          state.x - half < goal.left + frameThickness &&
+          previousX >= goal.left + frameThickness &&
+          state.vx < 0;
+        const hitRightSide =
+          state.x + half > goal.right - frameThickness &&
+          previousX <= goal.right - frameThickness &&
+          state.vx > 0;
+
+        if (hitLeftSide) {
+          state.x = goal.left + frameThickness + half;
+          state.vx = Math.abs(state.vx) * 0.72;
+          setMessage('The ball hit the side of the goal and bounced away!');
+        } else if (hitRightSide) {
+          state.x = goal.right - frameThickness - half;
+          state.vx = -Math.abs(state.vx) * 0.72;
+          setMessage('The ball hit the side of the goal and bounced away!');
+        }
+      }
+
+      // Solid back wall: a ball cannot pass through the rear of the goal.
+      const insideGoalWidth =
+        state.x + half > goal.left + frameThickness &&
+        state.x - half < goal.right - frameThickness;
+      const backWallY = goal.top - goalDepth;
+      const hitBackWall =
+        insideGoalWidth &&
+        state.y - half < backWallY &&
+        previousY >= backWallY &&
+        state.vy < 0;
+
+      if (hitBackWall) {
+        state.y = backWallY + half;
+        state.vy = Math.abs(state.vy) * 0.72;
+        setMessage('The ball hit the back of the goal and bounced out!');
+      }
+
+      // Front posts and crossbar are solid too.
       const overlapsPostVertically =
         state.y + half > goal.top && state.y - half < goal.bottom;
       if (overlapsPostVertically) {
@@ -196,7 +241,6 @@
         }
       }
 
-      // The crossbar is also solid: hitting it sends the ball back into the field.
       const overlapsCrossbarHorizontally =
         state.x + half > goal.left && state.x - half < goal.right;
       const hitCrossbar =
@@ -214,7 +258,6 @@
     }
     return null;
   }
-
   function frame(time) {
     if (!state.lastFrame) state.lastFrame = time;
     const dt = Math.min((time - state.lastFrame) / 16.67, 2);
