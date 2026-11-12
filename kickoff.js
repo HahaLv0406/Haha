@@ -154,6 +154,67 @@
     ball.style.transform = 'translate(-50%, -50%)';
   }
 
+  function resolveGoalCollision(previousX, previousY) {
+    const half = BALL_SIZE / 2;
+    const frameThickness = 5;
+
+    for (const goal of goalRects()) {
+      const innerLeft = goal.left + frameThickness + half;
+      const innerRight = goal.right - frameThickness - half;
+
+      // Score only by crossing the goal's front opening from the field side.
+      const crossedFront = state.vy < 0 &&
+        previousY - half > goal.bottom &&
+        state.y - half <= goal.bottom;
+      if (crossedFront && state.x > innerLeft && state.x < innerRight) {
+        return goal.id;
+      }
+
+      // Left and right posts are solid vertical obstacles.
+      const overlapsPostVertically =
+        state.y + half > goal.top && state.y - half < goal.bottom;
+      if (overlapsPostVertically) {
+        const hitLeftPost =
+          state.x - half < goal.left + frameThickness &&
+          state.x + half > goal.left &&
+          previousX >= goal.left + frameThickness &&
+          state.vx < 0;
+        const hitRightPost =
+          state.x + half > goal.right - frameThickness &&
+          state.x - half < goal.right &&
+          previousX <= goal.right - frameThickness &&
+          state.vx > 0;
+
+        if (hitLeftPost) {
+          state.x = goal.left + frameThickness + half;
+          state.vx = Math.abs(state.vx) * 0.68;
+          setMessage('The ball hit the goalpost and bounced away!');
+        } else if (hitRightPost) {
+          state.x = goal.right - frameThickness - half;
+          state.vx = -Math.abs(state.vx) * 0.68;
+          setMessage('The ball hit the goalpost and bounced away!');
+        }
+      }
+
+      // The crossbar is also solid: hitting it sends the ball back into the field.
+      const overlapsCrossbarHorizontally =
+        state.x + half > goal.left && state.x - half < goal.right;
+      const hitCrossbar =
+        overlapsCrossbarHorizontally &&
+        state.y - half < goal.top + frameThickness &&
+        state.y + half > goal.top &&
+        previousY >= goal.top + frameThickness &&
+        state.vy < 0;
+
+      if (hitCrossbar) {
+        state.y = goal.top + frameThickness + half;
+        state.vy = Math.abs(state.vy) * 0.68;
+        setMessage('Off the crossbar! The ball bounced back.');
+      }
+    }
+    return null;
+  }
+
   function frame(time) {
     if (!state.lastFrame) state.lastFrame = time;
     const dt = Math.min((time - state.lastFrame) / 16.67, 2);
@@ -163,6 +224,9 @@
     const height = pitch.clientHeight;
 
     if (!state.scored) {
+      const previousX = state.x;
+      const previousY = state.y;
+
       state.x += state.vx * dt;
       state.y += state.vy * dt;
 
@@ -183,16 +247,9 @@
         state.vy *= -0.42;
       }
 
-      // A goal only counts when the ball is moving upward through that goal mouth.
-      if (state.vy < 0) {
-        const target = goalRects().find(goal =>
-          state.x > goal.left + 5 &&
-          state.x < goal.right - 5 &&
-          state.y - half <= goal.bottom &&
-          state.y + half >= goal.top
-        );
-        if (target) openGoal(target.id);
-      }
+      // The goal frame is solid. Only a clean shot through the front opening scores.
+      const scoredGoal = resolveGoalCollision(previousX, previousY);
+      if (scoredGoal) openGoal(scoredGoal);
 
       // Keep the ball in play if it reaches the top between goals.
       if (state.y < half) {
@@ -203,7 +260,6 @@
     }
     requestAnimationFrame(frame);
   }
-
   function placeBall() {
     state.x = pitch.clientWidth * 0.5;
     state.y = pitch.clientHeight * 0.68;
