@@ -132,20 +132,15 @@
 
   function openGoal(id) {
     const pages = {
-      about: { label: 'ABOUT ME', href: 'about.html' },
-      base: { label: 'BASE CUP', href: 'journey.html' },
-      help: { label: 'ASK ME ABOUT', href: 'help.html' }
+      about: 'about.html',
+      base: 'journey.html',
+      help: 'help.html'
     };
-    const page = pages[id];
-    if (!page) return;
+    const destination = pages[id];
+    if (!destination || state.scored) return;
     state.scored = true;
-    if (flash) {
-      flash.classList.add('show');
-      flash.querySelector('strong').textContent = 'GOAL!';
-      flash.querySelector('span').textContent = 'OPENING ' + page.label;
-    }
-    setMessage('Goal scored. Opening your page…');
-    window.setTimeout(() => { window.location.href = page.href; }, 900);
+    // Navigate immediately when the ball crosses the goal line.
+    window.location.href = destination;
   }
 
   function draw() {
