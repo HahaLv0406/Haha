@@ -1,70 +1,222 @@
 (() => {
-  const pitch=document.querySelector('#pitch'), ball=document.querySelector('#ball'), shoe=document.querySelector('#shoe-cursor'), message=document.querySelector('#hud-message'), count=document.querySelector('#kick-counter'), flash=document.querySelector('#goal-flash');
-  if(!pitch||!ball)return;
-  const goals=[...pitch.querySelectorAll('.goal')];
-  const state={x:0,y:0,vx:1.1,vy:-.45,lastX:null,lastY:null,pointerX:0,pointerY:0,kicks:0,lastKick:0,scored:false,lastTime:0};
-  const radius=18;
-  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-  function size(){return {w:pitch.clientWidth,h:pitch.clientHeight}}
-  function goalRects(){const p=pitch.getBoundingClientRect();return goals.map(g=>{const r=g.getBoundingClientRect();return {id:g.dataset.goal,x:r.left-p.left+r.width/2,y:r.top-p.top+r.height*.72,half:r.width*.43}})}
-  function setMessage(t){message.textContent=t}
-  function kick(dx,dy){
-    if(state.scored)return;
-    const now=performance.now();if(now-state.lastKick<380)return;
-    let len=Math.hypot(dx,dy);
-    if(len<2){dx=state.x-state.pointerX;dy=state.y-state.pointerY;len=Math.hypot(dx,dy)}
-    if(len<2){dx=0;dy=-1;len=1}
-    dx/=len;dy/=len;
-    // A kick should travel forward into the pitch, while preserving the player's chosen left/right aim.
-    if(dy>-.12)dy=-Math.max(.38,Math.abs(dy));
-    len=Math.hypot(dx,dy);dx/=len;dy/=len;
-    state.vx=dx*13.8;state.vy=dy*13.8;state.lastKick=now;state.kicks++;count.textContent=String(state.kicks).padStart(2,'0');
-    setMessage('Nice touch — aim for one of the three goals.');
+  const pitch = document.querySelector('#pitch');
+  const ball = document.querySelector('#ball');
+  const shoe = document.querySelector('#shoe-cursor');
+  const message = document.querySelector('#hud-message');
+  const count = document.querySelector('#kick-counter');
+  const flash = document.querySelector('#goal-flash');
+  if (!pitch || !ball || !shoe) return;
+
+  const goals = [...pitch.querySelectorAll('.goal')];
+  const BALL_SIZE = 36;
+  const SHOE_HITBOX = 46;
+  const state = {
+    x: 0, y: 0, vx: 0.7, vy: -0.25,
+    pointerX: null, pointerY: null,
+    previousPointerX: null, previousPointerY: null,
+    touching: false, lastKick: 0, kicks: 0,
+    lastFrame: 0, scored: false
+  };
+
+  const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+  const setMessage = text => { if (message) message.textContent = text; };
+  const pitchRect = () => pitch.getBoundingClientRect();
+
+  function goalRects() {
+    const field = pitchRect();
+    return goals.map(goal => {
+      const rect = goal.querySelector('.goal-mouth').getBoundingClientRect();
+      return {
+        id: goal.dataset.goal,
+        left: rect.left - field.left,
+        right: rect.right - field.left,
+        top: rect.top - field.top,
+        bottom: rect.bottom - field.top
+      };
+    });
   }
-  function movePointer(e){
-    const r=pitch.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
-    shoe.style.left=e.clientX+'px';shoe.style.top=e.clientY+'px';shoe.classList.add('visible');
-    state.pointerX=x;state.pointerY=y;
-    if(state.lastX!==null){
-      const dx=x-state.lastX,dy=y-state.lastY;
-      if(Math.hypot(x-state.x,y-state.y)<37 && Math.hypot(dx,dy)>1.2 && performance.now()-state.lastKick>380)kick(dx,dy);
-    }
-    state.lastX=x;state.lastY=y;
+
+  // The shoe and ball are treated as two axis-aligned square hitboxes.
+  function overlapsShoeAndBall(x, y) {
+    const halfBall = BALL_SIZE / 2;
+    const halfShoe = SHOE_HITBOX / 2;
+    return Math.abs(x - state.x) < halfBall + halfShoe &&
+           Math.abs(y - state.y) < halfBall + halfShoe;
   }
-  pitch.addEventListener('pointerenter',()=>{shoe.classList.add('visible');setMessage('Move your shoe into the ball to kick it.')});
-  pitch.addEventListener('pointerleave',()=>shoe.classList.remove('visible'));
-  pitch.addEventListener('pointermove',movePointer);
-  pitch.addEventListener('pointerdown',e=>{const r=pitch.getBoundingClientRect();state.pointerX=e.clientX-r.left;state.pointerY=e.clientY-r.top;if(Math.hypot(state.pointerX-state.x,state.pointerY-state.y)<60)kick(state.x-state.pointerX,state.y-state.pointerY)});
-  window.addEventListener('keydown',e=>{if(['ArrowUp','ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();const d=e.key==='ArrowLeft'?-0.7:e.key==='ArrowRight'?0.7:0;kick(d,-1)}});
-  function score(goal){
-    state.scored=true;flash.classList.add('show');flash.querySelector('strong').textContent='GOAL!';
-    flash.querySelector('span').textContent='TAKING YOU TO '+goal.label.toUpperCase();
-    setMessage('Goal scored. Opening your page…');
-    window.setTimeout(()=>{window.location.href=goal.href},1050);
+
+  function kick(dx, dy, speed) {
+    const now = performance.now();
+    if (state.scored || now - state.lastKick < 260) return;
+
+    let length = Math.hypot(dx, dy);
+    if (length < 0.001) return;
+    const nx = dx / length;
+    const ny = dy / length;
+
+    // Kick follows the shoe's actual movement direction; speed only changes power.
+    const power = clamp(7.5 + speed * 0.22, 7.5, 15);
+    state.vx = nx * power;
+    state.vy = ny * power;
+    state.lastKick = now;
+    state.kicks += 1;
+    if (count) count.textContent = String(state.kicks).padStart(2, '0');
+    setMessage('Kick! Guide the ball toward one of the three goals.');
   }
-  function frame(t){
-    if(!state.lastTime)state.lastTime=t;
-    const dt=Math.min((t-state.lastTime)/16.67,2);state.lastTime=t;
-    const {w,h}=size();
-    if(!state.scored){
-      state.x+=state.vx*dt;state.y+=state.vy*dt;
-      state.vx*=Math.pow(.994,dt);state.vy*=Math.pow(.994,dt);
-      if(Math.abs(state.vx)+Math.abs(state.vy)<.7){state.vx=Math.sin(t/820)*1.35;state.vy=Math.cos(t/1030)*.62}
-      if(state.x<radius||state.x>w-radius){state.x=clamp(state.x,radius,w-radius);state.vx*=-.82}
-      if(state.y>h-radius){state.y=h-radius;state.vy*=-.78}
-      const rects=goalRects();
-      if(state.y<radius+rects[0].y-12){
-        const target=rects.find(g=>Math.abs(state.x-g.x)<g.half);
-        if(target&&state.vy<0&&state.kicks>0){score({label:target.id==='base'?'Base Cup':target.id==='about'?'About Me':'Ask Me About',href:target.id==='base'?'journey.html':target.id==='about'?'about.html':'help.html'})}
-        else {state.y=radius+rects[0].y-12;state.vy=Math.abs(state.vy)*.78;setMessage('Saved by the net — try another angle.')}
+
+  function onPointerMove(event) {
+    const rect = pitchRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const shoeSize = 48;
+
+    shoe.style.left = event.clientX + 'px';
+    shoe.style.top = event.clientY + 'px';
+    shoe.classList.add('visible');
+
+    if (state.pointerX !== null) {
+      const dx = x - state.pointerX;
+      const dy = y - state.pointerY;
+      const distance = Math.hypot(dx, dy);
+      const speed = distance;
+
+      const touchingNow = overlapsShoeAndBall(x, y);
+      if (touchingNow && !state.touching && distance > 1.5) {
+        kick(dx, dy, speed);
       }
-      if(Math.hypot(state.x-state.pointerX,state.y-state.pointerY)<37 && state.lastX!==null && t-state.lastKick>380){/* wait for a fresh pointer movement */}
-      ball.style.left=state.x+'px';ball.style.top=state.y+'px';ball.style.transform='translate(-50%,-50%) rotate('+((t/7)%360)+'deg)';
+      state.touching = touchingNow;
+    }
+
+    state.pointerX = x;
+    state.pointerY = y;
+  }
+
+  pitch.addEventListener('pointerenter', () => {
+    shoe.classList.add('visible');
+    setMessage('Move the shoe into the ball, then sweep in the direction you want to kick.');
+  });
+  pitch.addEventListener('pointerleave', () => {
+    shoe.classList.remove('visible');
+    state.pointerX = null;
+    state.pointerY = null;
+    state.touching = false;
+  });
+  pitch.addEventListener('pointermove', onPointerMove);
+
+  pitch.addEventListener('pointerdown', event => {
+    const rect = pitchRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    shoe.style.left = event.clientX + 'px';
+    shoe.style.top = event.clientY + 'px';
+    shoe.classList.add('visible');
+    if (overlapsShoeAndBall(x, y)) {
+      // A tap alone gives a gentle kick toward the ball from the shoe's last position.
+      const dx = state.pointerX === null ? 0 : x - state.pointerX;
+      const dy = state.pointerY === null ? -1 : y - state.pointerY;
+      kick(dx, dy || -1, 4);
+    }
+    state.pointerX = x;
+    state.pointerY = y;
+  });
+
+  window.addEventListener('keydown', event => {
+    const directions = {
+      ArrowUp: [0, -1], ArrowDown: [0, 1],
+      ArrowLeft: [-1, 0], ArrowRight: [1, 0]
+    };
+    const direction = directions[event.key];
+    if (!direction) return;
+    event.preventDefault();
+    kick(direction[0], direction[1], 10);
+  });
+
+  function openGoal(id) {
+    const pages = {
+      about: { label: 'ABOUT ME', href: 'about.html' },
+      base: { label: 'BASE CUP', href: 'journey.html' },
+      help: { label: 'ASK ME ABOUT', href: 'help.html' }
+    };
+    const page = pages[id];
+    if (!page) return;
+    state.scored = true;
+    if (flash) {
+      flash.classList.add('show');
+      flash.querySelector('strong').textContent = 'GOAL!';
+      flash.querySelector('span').textContent = 'OPENING ' + page.label;
+    }
+    setMessage('Goal scored. Opening your page…');
+    window.setTimeout(() => { window.location.href = page.href; }, 900);
+  }
+
+  function draw() {
+    ball.style.left = state.x + 'px';
+    ball.style.top = state.y + 'px';
+    ball.style.transform = 'translate(-50%, -50%)';
+  }
+
+  function frame(time) {
+    if (!state.lastFrame) state.lastFrame = time;
+    const dt = Math.min((time - state.lastFrame) / 16.67, 2);
+    state.lastFrame = time;
+
+    const width = pitch.clientWidth;
+    const height = pitch.clientHeight;
+
+    if (!state.scored) {
+      state.x += state.vx * dt;
+      state.y += state.vy * dt;
+
+      // Predictable ground friction: the ball slows down smoothly instead of drifting randomly.
+      const friction = Math.pow(0.986, dt);
+      state.vx *= friction;
+      state.vy *= friction;
+      if (Math.abs(state.vx) < 0.035) state.vx = 0;
+      if (Math.abs(state.vy) < 0.035) state.vy = 0;
+
+      const half = BALL_SIZE / 2;
+      if (state.x < half || state.x > width - half) {
+        state.x = clamp(state.x, half, width - half);
+        state.vx *= -0.58;
+      }
+      if (state.y > height - half) {
+        state.y = height - half;
+        state.vy *= -0.42;
+      }
+
+      // A goal only counts when the ball is moving upward through that goal mouth.
+      if (state.vy < 0) {
+        const target = goalRects().find(goal =>
+          state.x > goal.left + 5 &&
+          state.x < goal.right - 5 &&
+          state.y - half <= goal.bottom &&
+          state.y + half >= goal.top
+        );
+        if (target) openGoal(target.id);
+      }
+
+      // Keep the ball in play if it reaches the top between goals.
+      if (state.y < half) {
+        state.y = half;
+        state.vy = Math.abs(state.vy) * 0.45;
+      }
+      draw();
     }
     requestAnimationFrame(frame);
   }
-  const {w,h}=size();state.x=w*.5;state.y=h*.68;state.vx=1.2;state.vy=-.35;
-  ball.style.left=state.x+'px';ball.style.top=state.y+'px';
+
+  function placeBall() {
+    state.x = pitch.clientWidth * 0.5;
+    state.y = pitch.clientHeight * 0.68;
+    state.vx = 0.7;
+    state.vy = -0.25;
+    draw();
+  }
+
+  placeBall();
   requestAnimationFrame(frame);
-  window.addEventListener('resize',()=>{const s=size();state.x=clamp(state.x,radius,s.w-radius);state.y=clamp(state.y,radius,s.h-radius)});
+  window.addEventListener('resize', () => {
+    state.x = clamp(state.x, BALL_SIZE / 2, pitch.clientWidth - BALL_SIZE / 2);
+    state.y = clamp(state.y, BALL_SIZE / 2, pitch.clientHeight - BALL_SIZE / 2);
+    draw();
+  });
 })();
